@@ -10,7 +10,8 @@
 <meta property="og:title" content="Three Squares — three tiny logic puzzles, every day">
 <meta property="og:description" content="Stars, Duo and Thread. A few minutes a day. Free, no ads, no account.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="og.png">
+<meta property="og:image" content="https://threesquares-daily.github.io/threesquares-daily/og.png">
+<meta property="og:url" content="https://threesquares-daily.github.io/threesquares-daily/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -84,6 +85,9 @@ footer a{color:var(--muted)}
 .sgrid{border:3px solid var(--ink)}
 .scell{display:grid;place-items:center;position:relative;cursor:pointer;border-color:var(--ink);border-style:solid;border-width:0}
 .scell .mk{font-size:calc(var(--cs)*.38);color:var(--ink);opacity:.45;line-height:1}
+.scell .mk.auto{opacity:.22}
+.tnum.start{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 calc(var(--cs)*.12) color-mix(in srgb,var(--mustard) 55%,transparent)}}
 .scell .star{width:62%;height:62%}
 .scell .star path{fill:var(--ink)}
 .scell.bad{background-image:repeating-linear-gradient(45deg,rgba(209,52,47,.28) 0 6px,transparent 6px 12px)!important}
@@ -157,7 +161,8 @@ footer a{color:var(--muted)}
 const TS = window.TS;
 const DAILY = window.TS_DAILY || {start:'2026-11-02',days:[]};
 /* ===================== config ===================== */
-const SUPPORT_URL = '';   // e.g. a Ko-fi link — the button appears when set
+const SUPPORT_URL = '';   // e.g. a Ko-fi page link — a support button appears when set
+const BOOK_URL = '';      // link to the printable puzzle book listing — appears when set
 const GAMES = ['stars','duo','thread'];
 
 /* ===================== storage ===================== */
@@ -195,7 +200,8 @@ const T = {
   day:'Day', practiceTag:'practice', archiveTag:'archive', loading:'Making a fresh puzzle…',
   reset:'Reset this puzzle?', wd:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
   diff:['easy','easy','medium','medium','hard','hard','tough'],
-  difficulty:'Puzzles get harder through the week: Monday is gentle, Sunday is tough.'
+  difficulty:'Puzzles get harder through the week: Monday is gentle, Sunday is tough.',
+  autoX:'Stars: auto-mark ×', autoXHelp:'Faintly mark squares a placed star rules out.', on:'On', off:'Off', welcome:'Welcome! Here’s how the three puzzles work.', gotIt:'Let’s play', book:'Printable puzzle book: 90 puzzles'
  },
  pl:{
   tag:'Trzy małe łamigłówki. Codziennie.',
@@ -222,7 +228,8 @@ const T = {
   day:'Dzień', practiceTag:'trening', archiveTag:'archiwum', loading:'Robię nową łamigłówkę…',
   reset:'Wyczyścić tę łamigłówkę?', wd:['pon','wt','śr','czw','pt','sob','nd'],
   diff:['łatwa','łatwa','średnia','średnia','trudna','trudna','bardzo trudna'],
-  difficulty:'Łamigłówki trudnieją w ciągu tygodnia: poniedziałek jest łagodny, niedziela wymagająca.'
+  difficulty:'Łamigłówki trudnieją w ciągu tygodnia: poniedziałek jest łagodny, niedziela wymagająca.',
+  autoX:'Gwiazdy: automatyczne ×', autoXHelp:'Delikatnie zaznacza pola wykluczone przez postawioną gwiazdę.', on:'Wł.', off:'Wył.', welcome:'Witaj! Tak działają trzy łamigłówki.', gotIt:'Gramy', book:'Książeczka do druku: 90 łamigłówek'
  }
 };
 let lang = S.lang || ((navigator.language||'en').toLowerCase().startsWith('pl')?'pl':'en');
@@ -373,6 +380,7 @@ function home(){
   const foot=h('footer',null,
     h('div',null,t('madeBy'),' ',h('a',{href:'about.html'},t('about')+' →')),
     h('div',null,t('privacy')));
+  if(BOOK_URL) foot.prepend(h('div',{style:{marginBottom:'8px'}},h('a',{href:BOOK_URL,target:'_blank',rel:'noopener'},'📘 '+t('book'))));
   if(SUPPORT_URL) foot.prepend(h('div',{style:{marginBottom:'8px'}},h('a',{href:SUPPORT_URL,target:'_blank',rel:'noopener',class:'btn ghost',style:{display:'inline-block',textDecoration:'none'}},'☕ '+t('support'))));
   $app.append(foot);
 }
@@ -488,9 +496,11 @@ function StarsBoard(host,p,state,cb){
   function render(){
     const stars=[]; s.forEach((v,i)=>v===2&&stars.push(i));
     const res=TS.checkStars(p,stars);
+    const auto=new Set();
+    if(S.autoX!==false) stars.forEach(st=>{ const sy=(st/n)|0,sx=st%n; for(let k=0;k<N;k++){ const ky=(k/n)|0,kx=k%n; if(k!==st&&(ky===sy||kx===sx||p.r[k]===p.r[st]||(Math.abs(ky-sy)<=1&&Math.abs(kx-sx)<=1))) auto.add(k); } });
     cells.forEach((c,i)=>{
       c.innerHTML='';
-      if(s[i]===1) c.append(h('span',{class:'mk'},'×'));
+      if(s[i]===1||(s[i]===0&&auto.has(i))) c.append(h('span',{class:'mk'+(s[i]===0?' auto':'')},'×'));
       if(s[i]===2) c.append(starSvg());
       c.classList.toggle('bad',res.bad.has(i));
     });
@@ -557,6 +567,7 @@ function ThreadBoard(host,p,state,cb){
   function render(){
     const on=new Set(path);
     cells.forEach((c,i)=>c.classList.toggle('on',on.has(i)));
+    if(numEls[0]) numEls[0].classList.toggle('start',path.length===0&&!won);
     line.setAttribute('points', path.map(center).map(([x,y])=>x.toFixed(1)+','+y.toFixed(1)).join(' '));
   }
   function nextNum(){ let k=1; for(const c of path) if(num[c]===k) k++; return k; }
@@ -638,11 +649,14 @@ function archiveDay(i){
 }
 
 /* ===================== sheets ===================== */
-document.getElementById('btn-help').addEventListener('click',()=>modal((sh)=>{
+function showHelp(first){ modal((sh,close)=>{
   sh.append(h('h2',null,t('help')));
+  if(first) sh.append(h('p',{class:'muted'},t('welcome')));
   GAMES.forEach(g=>sh.append(h('h3',null,t(g)),h('p',null,t(g+'Rule')),h('p',{class:'muted small'},t(g+'How'))));
   sh.append(h('p',{class:'muted small',style:{marginTop:'16px'}},t('difficulty')));
-}));
+  sh.append(h('button',{class:'btn wide',style:{marginTop:'8px'},onclick:close},t('gotIt')));
+}); }
+document.getElementById('btn-help').addEventListener('click',()=>showHelp(false));
 document.getElementById('btn-stats').addEventListener('click',()=>modal((sh)=>{
   const st=streaks();
   const played=Object.keys(S.days).filter(k=>GAMES.some(g=>S.days[k][g]&&S.days[k][g].solved)).length;
@@ -662,6 +676,7 @@ document.getElementById('btn-set').addEventListener('click',()=>modal((sh,close)
   sh.append(h('h2',null,t('settings')),
     h('h3',null,t('lang')), seg([['en','English'],['pl','Polski']],lang,(v)=>{ lang=S.lang=v; save(); applyTheme(); close(); go(home); }),
     h('h3',null,t('theme')), seg([['auto',t('auto')],['light',t('light')],['dark',t('dark')]],S.theme||'auto',(v)=>{ S.theme=v; save(); applyTheme(); close(); }),
+    h('h3',null,t('autoX')), h('p',{class:'muted small',style:{margin:'0 0 8px'}},t('autoXHelp')), seg([['on',t('on')],['off',t('off')]],S.autoX===false?'off':'on',(v)=>{ S.autoX=(v==='on'); save(); close(); }),
     h('p',{class:'muted small',style:{marginTop:'18px'}},h('a',{href:'about.html'},t('about')+' →')));
 }));
 
@@ -670,6 +685,7 @@ let lastIdx=todayIdx();
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden && todayIdx()!==lastIdx){ lastIdx=todayIdx(); go(home); } });
 const q=new URLSearchParams(location.search);
 if(q.get('play')&&GAMES.includes(q.get('play'))) openGame(q.get('play'),todayIdx(),'daily'); else go(home);
+if(!S.seenHelp){ S.seenHelp=true; save(); setTimeout(()=>showHelp(true),350); }
 if('serviceWorker' in navigator && location.protocol==='https:') navigator.serviceWorker.register('sw.js').catch(()=>{});
 window.__TS_DEBUG={puzzlesFor,todayIdx,S};
 })();

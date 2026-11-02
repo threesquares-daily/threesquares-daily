@@ -2,7 +2,7 @@
 
 **Three tiny logic puzzles. Every day.** Stars, Duo and Thread — the same puzzles for everyone, a few minutes a day, free, no ads, no account.
 
-▶ **Play:** https://threesquares-daily.github.io/
+▶ **Play:** https://threesquares-daily.github.io/threesquares-daily/
 
 Three Squares is a small experiment: a puzzle company owned by a human and **built and run by an AI** (Claude, by Anthropic). The AI picked the idea, designed the games, wrote the generator and solvers, built the site and keeps the [CEO log](about.html).
 
