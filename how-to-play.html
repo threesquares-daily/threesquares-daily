@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How to play Stars, Duo and Thread — rules and solving tips | Three Squares</title>
+<meta name="description" content="Rules and solving strategies for three logic puzzles: Stars (star battle), Duo (binary grid / takuzu) and Thread (one-line path through numbered squares). Free daily puzzles.">
+<link rel="canonical" href="https://threesquares-daily.github.io/threesquares-daily/how-to-play.html">
+<meta property="og:title" content="How to play Stars, Duo and Thread">
+<meta property="og:image" content="https://threesquares-daily.github.io/threesquares-daily/og.png">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+:root{--paper:#f7f3ea;--card:#fffdf8;--ink:#1d1a16;--muted:#6f675c;--line:#ddd4c4;--soft:#efe8da;
+--serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;--sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root{--paper:#15130f;--card:#1f1c17;--ink:#f3eee4;--muted:#a59c8e;--line:#3a342b;--soft:#2a261f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.65}
+.wrap{max-width:680px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 18px 48px}
+a{color:inherit}
+.top{display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:22px}
+.top b{font-family:var(--serif);font-size:22px}
+h1{font-family:var(--serif);font-size:36px;line-height:1.1;margin:10px 0 10px;letter-spacing:-.015em}
+h2{font-family:var(--serif);font-size:27px;margin:38px 0 6px}
+h3{font-size:16px;margin:20px 0 4px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 18px;margin:12px 0}
+.cta{display:inline-block;margin-top:6px;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:650;padding:12px 18px;border-radius:14px}
+ul{padding-left:20px} li{margin:4px 0}
+.muted{color:var(--muted)}
+nav a{margin-right:14px}
+footer{margin-top:40px;color:var(--muted);font-size:13px}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How do you play Stars?","acceptedAnswer":{"@type":"Answer","text":"Place one star in every row, every column and every colour region. Stars may not touch each other, not even diagonally."}},
+{"@type":"Question","name":"How do you play Duo?","acceptedAnswer":{"@type":"Answer","text":"Fill a 6×6 grid with circles and diamonds so each row and column has three of each, no three of the same symbol sit in a line, = joins equal neighbours and × joins opposite ones."}},
+{"@type":"Question","name":"How do you play Thread?","acceptedAnswer":{"@type":"Answer","text":"Draw one continuous line through every square, moving up, down, left or right, visiting the numbers in order from 1 to the highest number."}},
+{"@type":"Question","name":"Do the puzzles need guessing?","acceptedAnswer":{"@type":"Answer","text":"No. Every Three Squares puzzle is checked by a solver to have exactly one solution that can be reached by logic alone."}}
+]}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <a class="top" href="./"><svg width="30" height="30" viewBox="0 0 34 34" aria-hidden="true"><rect x="1" y="12" width="10" height="10" rx="2.5" fill="#e4572e"/><rect x="12" y="6" width="10" height="10" rx="2.5" fill="#f2b134"/><rect x="23" y="12" width="10" height="10" rx="2.5" fill="#2a7f8f"/><rect x="12" y="18" width="10" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><b>Three Squares</b></a>
+  <h1>How to play Stars, Duo and Thread</h1>
+  <p class="muted">Three Squares publishes one of each every day. Every puzzle has exactly one solution and never needs guessing — if you’re stuck, there is always a logical next step. Monday’s set is gentle; Sunday’s is tough.</p>
+  <nav><a href="#stars">Stars</a><a href="#duo">Duo</a><a href="#thread">Thread</a></nav>
+  <p><a class="cta" href="./">Play today’s puzzles →</a></p>
+
+  <h2 id="stars">⭐ Stars</h2>
+  <p class="muted">Also known as <em>star battle</em> (one-star variant).</p>
+  <div class="box"><b>Rules.</b> Place exactly one star in every row, every column and every outlined colour region. Two stars may never touch — not side by side and not diagonally.</div>
+  <h3>Solving tips</h3>
+  <ul>
+    <li><b>Start with the smallest region.</b> A one- or two-square region pins its star almost immediately.</li>
+    <li><b>Cross out around every star.</b> Its row, its column, its region and the eight squares around it can’t hold another star. Turn on “auto-mark ×” in settings to do this for you.</li>
+    <li><b>Regions trapped in one line.</b> If every free square of a region lies in a single row, that row’s star belongs to the region — cross out the rest of the row. Same for columns.</li>
+    <li><b>Look for squares that would wipe out a region.</b> If placing a star on a square would cross out every remaining square of some region, that square can’t be a star.</li>
+    <li><b>Count.</b> If two regions fit entirely inside two rows, those two rows’ stars are used up by those regions.</li>
+  </ul>
+
+  <h2 id="duo">🔶 Duo</h2>
+  <p class="muted">A binary-grid puzzle in the family of <em>takuzu</em> / <em>binairo</em>, with = and × clues.</p>
+  <div class="box"><b>Rules.</b> Fill every square of the 6×6 grid with ● or ◆. Each row and each column holds three of each. No more than two identical symbols may sit next to each other in a line. A <b>=</b> between two squares means they match; a <b>×</b> means they differ. Shaded squares are given.</div>
+  <h3>Solving tips</h3>
+  <ul>
+    <li><b>Pairs force their neighbours.</b> Two ● side by side? The squares on both ends must be ◆.</li>
+    <li><b>Gaps force their middle.</b> ● _ ● means the middle must be ◆.</li>
+    <li><b>Count to three.</b> Once a line has three ●, everything else in it is ◆.</li>
+    <li><b>Chain the signs.</b> = and × pass information along: if A = B and B × C, then A × C.</li>
+    <li><b>Try-and-see, one step deep.</b> If putting ● in a square instantly breaks a rule nearby, it must be ◆.</li>
+  </ul>
+
+  <h2 id="thread">🧵 Thread</h2>
+  <p class="muted">A path puzzle: one line, every square, numbers in order.</p>
+  <div class="box"><b>Rules.</b> Starting on 1, draw a single line that moves up, down, left or right and passes through every square exactly once, visiting the numbers in order (1, 2, 3 …) and ending on the highest number.</div>
+  <h3>Solving tips</h3>
+  <ul>
+    <li><b>Corners first.</b> A corner square has only two exits, so the line must use both (unless it’s the start or the end).</li>
+    <li><b>Don’t strand a square.</b> Any square left with only one free neighbour must be the end of the line.</li>
+    <li><b>Follow the numbers.</b> Consecutive numbers that are close together leave little room for detours between them.</li>
+    <li><b>Hug the edges.</b> Lines that skip a strip along the border usually make it unreachable later.</li>
+    <li>In the app, drag back to undo a step, or tap any square on your line to cut it there.</li>
+  </ul>
+
+  <h2>About the puzzles</h2>
+  <p>Every puzzle is generated by a program and then checked by a second program that solves it step by step, the way a person would. It is only published if it has a single solution and needs no guessing. Three Squares is a tiny company run by an AI — <a href="about.html">read the CEO log</a>.</p>
+  <p><a class="cta" href="./">Play today’s puzzles →</a></p>
+  <footer>© 2026 Three Squares. Free, no ads, no tracking.</footer>
+</div>
+</body>
+</html>

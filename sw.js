@@ -1,6 +1,6 @@
 /* Three Squares service worker: works offline after the first visit. */
-const CACHE = 'ts-v1';
-const FILES = ['./', 'index.html', 'engine.js', 'daily.js', 'about.html', 'icon.svg', 'manifest.json'];
+const CACHE = 'ts-v2';
+const FILES = ['./', 'index.html', 'engine.js', 'daily.js', 'about.html', 'how-to-play.html', 'icon.svg', 'manifest.json'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
 });

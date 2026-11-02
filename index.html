@@ -16,6 +16,8 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
+<link rel="canonical" href="https://threesquares-daily.github.io/threesquares-daily/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Three Squares","url":"https://threesquares-daily.github.io/threesquares-daily/","applicationCategory":"GameApplication","operatingSystem":"Any (web browser)","description":"Three tiny logic puzzles every day: Stars, Duo and Thread. Free, no ads, no account.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":["en","pl"]}</script>
 <style>
 :root{
   --paper:#f7f3ea;--card:#fffdf8;--ink:#1d1a16;--muted:#6f675c;--line:#ddd4c4;--soft:#efe8da;
@@ -201,7 +203,7 @@ const T = {
   reset:'Reset this puzzle?', wd:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
   diff:['easy','easy','medium','medium','hard','hard','tough'],
   difficulty:'Puzzles get harder through the week: Monday is gentle, Sunday is tough.',
-  autoX:'Stars: auto-mark ×', autoXHelp:'Faintly mark squares a placed star rules out.', on:'On', off:'Off', welcome:'Welcome! Here’s how the three puzzles work.', gotIt:'Let’s play', book:'Printable puzzle book: 90 puzzles'
+  autoX:'Stars: auto-mark ×', autoXHelp:'Faintly mark squares a placed star rules out.', on:'On', off:'Off', welcome:'Welcome! Here’s how the three puzzles work.', gotIt:'Let’s play', guide:'Solving tips for all three puzzles →', book:'Printable puzzle book: 90 puzzles'
  },
  pl:{
   tag:'Trzy małe łamigłówki. Codziennie.',
@@ -229,7 +231,7 @@ const T = {
   reset:'Wyczyścić tę łamigłówkę?', wd:['pon','wt','śr','czw','pt','sob','nd'],
   diff:['łatwa','łatwa','średnia','średnia','trudna','trudna','bardzo trudna'],
   difficulty:'Łamigłówki trudnieją w ciągu tygodnia: poniedziałek jest łagodny, niedziela wymagająca.',
-  autoX:'Gwiazdy: automatyczne ×', autoXHelp:'Delikatnie zaznacza pola wykluczone przez postawioną gwiazdę.', on:'Wł.', off:'Wył.', welcome:'Witaj! Tak działają trzy łamigłówki.', gotIt:'Gramy', book:'Książeczka do druku: 90 łamigłówek'
+  autoX:'Gwiazdy: automatyczne ×', autoXHelp:'Delikatnie zaznacza pola wykluczone przez postawioną gwiazdę.', on:'Wł.', off:'Wył.', welcome:'Witaj! Tak działają trzy łamigłówki.', gotIt:'Gramy', guide:'Porady, jak rozwiązywać (po angielsku) →', book:'Książeczka do druku: 90 łamigłówek'
  }
 };
 let lang = S.lang || ((navigator.language||'en').toLowerCase().startsWith('pl')?'pl':'en');
@@ -379,6 +381,7 @@ function home(){
     h('button',{class:'btn ghost',onclick:archiveMenu},t('archive'))));
   const foot=h('footer',null,
     h('div',null,t('madeBy'),' ',h('a',{href:'about.html'},t('about')+' →')),
+    h('div',null,h('a',{href:'how-to-play.html'},t('guide'))),
     h('div',null,t('privacy')));
   if(BOOK_URL) foot.prepend(h('div',{style:{marginBottom:'8px'}},h('a',{href:BOOK_URL,target:'_blank',rel:'noopener'},'📘 '+t('book'))));
   if(SUPPORT_URL) foot.prepend(h('div',{style:{marginBottom:'8px'}},h('a',{href:SUPPORT_URL,target:'_blank',rel:'noopener',class:'btn ghost',style:{display:'inline-block',textDecoration:'none'}},'☕ '+t('support'))));
@@ -654,6 +657,7 @@ function showHelp(first){ modal((sh,close)=>{
   if(first) sh.append(h('p',{class:'muted'},t('welcome')));
   GAMES.forEach(g=>sh.append(h('h3',null,t(g)),h('p',null,t(g+'Rule')),h('p',{class:'muted small'},t(g+'How'))));
   sh.append(h('p',{class:'muted small',style:{marginTop:'16px'}},t('difficulty')));
+  sh.append(h('p',{class:'small'},h('a',{href:'how-to-play.html'},t('guide'))));
   sh.append(h('button',{class:'btn wide',style:{marginTop:'8px'},onclick:close},t('gotIt')));
 }); }
 document.getElementById('btn-help').addEventListener('click',()=>showHelp(false));

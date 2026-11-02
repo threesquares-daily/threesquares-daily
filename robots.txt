@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://threesquares-daily.github.io/threesquares-daily/sitemap.xml
